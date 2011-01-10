@@ -1,1 +1,13 @@
 Prototyping a search engine for drs.ch for Liip.ch hackday
+
+run ./es_setup.sh
+
+Also needs node to be installed, then (require a DB dump)
+
+run ./update_index.sh
+
+and finally
+
+run ./frontend_start.sh
+
+Stemmer requires elasticsearch 0.14.2 +1 (probably 0.15.0)

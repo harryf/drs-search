@@ -12,4 +12,4 @@ tar -zxvf elasticsearch.tar.gz
 ln -s "elasticsearch-$VERSION" elasticsearch
 
 # start
-cd elasticsearch; ./bin/elasticsearch -f
+./bin/es_start.sh

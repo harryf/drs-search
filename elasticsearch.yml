@@ -1,0 +1,19 @@
+cluster:
+    name: foo
+discovery:
+    zen:
+      ping:
+        multicast:
+          enabled: false
+
+index:
+    analysis:
+        analyzer:
+            default:
+                type: custom
+                tokenizer: whitespace
+                filter: [snowball]
+        filter:
+            snowball:
+                type: snowball
+                language: German2
