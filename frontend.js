@@ -13,13 +13,12 @@ var files = {
   }
 };
 
-
 var serve, search;
 
 serve = function (req, resp) {
   resp.writeHead(200, {'Content-Type': files[req.url].mime});
   resp.end(files[req.url].content);
-}
+};
 
 var searchClient = http.createClient(9200, '127.0.0.1');
 search = function (req, resp) {
@@ -37,12 +36,12 @@ search = function (req, resp) {
       var data = [];
       JSON.parse(body).hits.hits.forEach(function(hit) {
         data.push(hit._source);
-      })
+      });
       resp.writeHead(200, {'Content-Type': 'application/json'});
       resp.end(JSON.stringify(data));
     });
   });
-}
+};
 
 http.createServer(function (request, response) {
   if (typeof files[request.url] !== 'undefined') {
