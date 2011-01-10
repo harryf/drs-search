@@ -10,6 +10,10 @@ var files = {
   '/main.js': {
     mime: 'text/javascript',
     content: fs.readFileSync('frontend/main.js')
+  },
+  '/main.css': {
+    mime: 'text/css',
+    content: fs.readFileSync('frontend/main.css')
   }
 };
 
