@@ -1,16 +1,22 @@
 #!/usr/bin/env node
-var fs = require('fs');
-var http = require('http');
-
+var fs = require('fs'),
+    http = require('http');
 
 fs.readFile('drsitems.txt', 'utf-8', function (err, data) {
   if (err) throw err;
-  
-  console.log(data);
-  
-  var client = http.createClient(80, '127.0.0.1');
-  var request = client.request('PUT', '/drs/shows',{'host': '127.0.0.1'});
-  request.end(data);
+
+  var client = http.createClient(9200, '127.0.0.1');
+  data.split("\n").forEach(function(line) {
+      
+      
+      try {
+          var record = JSON.parse(line);
+
+          var request = client.request('PUT', '/drs/shows/' + record['id'], {'host': '127.0.0.1'});
+          request.end(line);
+        } catch ( e) {}
+
+  });
   
   
 });
