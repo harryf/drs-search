@@ -26,7 +26,15 @@ serve = function (req, resp) {
 
 var searchClient = http.createClient(9200, '127.0.0.1');
 search = function (req, resp) {
-  var term = url.parse(req.url, true).query.query;
+
+  var term;
+  if (!url.parse(req.url, true).query || !url.parse(req.url, true).query.query) {
+    resp.writeHead(200, {'Content-Type': 'application/json'});
+    resp.end('{}');
+    return;
+  }
+
+  term = url.parse(req.url, true).query.query;
 
   request = searchClient.request('GET', '/drs/shows/_search/?q='+encodeURIComponent(term));
   request.end();
@@ -38,9 +46,11 @@ search = function (req, resp) {
     });
     response.on('end', function () {
       var data = [];
-      JSON.parse(body).hits.hits.forEach(function(hit) {
-        data.push(hit._source);
-      });
+      if (body && JSON.parse(body).hits.hits) {
+        JSON.parse(body).hits.hits.forEach(function(hit) {
+          data.push(hit._source);
+        });
+      }
       resp.writeHead(200, {'Content-Type': 'application/json'});
       resp.end(JSON.stringify(data));
     });
