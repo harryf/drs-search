@@ -11,7 +11,8 @@
             type: 'GET',
             url: '/search',
             success: populateResults,
-            data: {query: $(this.search).val()},
+            
+            data: {query: $(this.query).val()},
             dataType: 'json'
         });
     });
