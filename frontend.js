@@ -17,8 +17,8 @@ var files = {
 var serve, search;
 
 serve = function (req, resp) {
-  response.writeHead(200, {'Content-Type': files[request.url].mime});
-  response.end(files[request.url].content);
+  resp.writeHead(200, {'Content-Type': files[req.url].mime});
+  resp.end(files[req.url].content);
 }
 
 var searchClient = http.createClient(9200, '127.0.0.1');
