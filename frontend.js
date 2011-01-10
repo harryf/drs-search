@@ -28,7 +28,9 @@ var searchClient = http.createClient(9200, '127.0.0.1');
 search = function (req, resp) {
   var term = url.parse(req.url, true).query.query;
 
-  request = searchClient.request('GET', '/drs/shows/_search/?q='+encodeURIComponent(term));
+  var data = '{"query":{"match_all":{}}, "facets": {"program": {"terms": {"field": "program","size":10 } }, "container": {"terms": {"field": "container", "size":10} } } }';
+  request = searchClient.request('GET', '/drs/shows/_search/?q='+encodeURIComponent(term), {'Transfer-Encoding': 'chunked'});
+  request.write(data);
   request.end();
   request.on('response', function (response) {
     var body = "";
@@ -38,8 +40,10 @@ search = function (req, resp) {
     });
     response.on('end', function () {
       var data = [];
-      JSON.parse(body).hits.hits.forEach(function(hit) {
+      var r = JSON.parse(body);
+      r.hits.hits.forEach(function(hit) {
         data.push(hit._source);
+        
       });
       resp.writeHead(200, {'Content-Type': 'application/json'});
       resp.end(JSON.stringify(data));
