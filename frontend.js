@@ -48,19 +48,11 @@ search = function (req, resp) {
     });
     response.on('end', function () {
       var data = [];
-<<<<<<< HEAD
       var r = JSON.parse(body);
       r.hits.hits.forEach(function(hit) {
         data.push(hit._source);
         
       });
-=======
-      if (body && JSON.parse(body).hits.hits) {
-        JSON.parse(body).hits.hits.forEach(function(hit) {
-          data.push(hit._source);
-        });
-      }
->>>>>>> 5a16b706e3cde8190f21cf116a9baff3dbd04a1b
       resp.writeHead(200, {'Content-Type': 'application/json'});
       resp.end(JSON.stringify(data));
     });
